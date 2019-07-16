@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: RaisedButton(onPressed: (){
-            CreativeScanner.startScan;
+            CreativeScanner.startScan(toolbarColor: "#00bcd4", toolbarText: "Scan Code");
           },child: Text("Press Me"),),
         ),
       ),

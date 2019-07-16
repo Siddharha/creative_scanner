@@ -3,10 +3,13 @@ package creativelizard.creative_scanner;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
@@ -20,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class ContinuousCaptureActivity extends Activity {
+public class ContinuousCaptureActivity extends AppCompatActivity {
     private static final String TAG = ContinuousCaptureActivity.class.getSimpleName();
     private DecoratedBarcodeView barcodeView;
     private BeepManager beepManager;
@@ -53,12 +56,21 @@ public class ContinuousCaptureActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialize();
+    }
 
-        FrameLayout fl = new FrameLayout(getBaseContext());
+    private void initialize() {
+
+        LinearLayout llMain = new LinearLayout(getBaseContext());
+        llMain.setOrientation(LinearLayout.VERTICAL);
+        Toolbar mToolbar = new Toolbar(getBaseContext());
+        mToolbar.setTitle(getIntent().getStringExtra("toolbar_title"));
+        mToolbar.setBackgroundColor(Color.parseColor(getIntent().getStringExtra("toolbar_color")));
+        llMain.addView(mToolbar);
         barcodeView = new DecoratedBarcodeView(getBaseContext());
-        fl.addView(barcodeView);
-        setContentView(fl);
-
+        llMain.addView(barcodeView);
+        setContentView(llMain);
+        setSupportActionBar(mToolbar);
 
         Collection<BarcodeFormat> formats = Arrays.asList(BarcodeFormat.QR_CODE, BarcodeFormat.CODE_39);
         barcodeView.getBarcodeView().setDecoderFactory(new DefaultDecoderFactory());//new DefaultDecoderFactory(formats));

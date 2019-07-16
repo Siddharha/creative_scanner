@@ -26,16 +26,25 @@ class CreativeScannerPlugin(val activity:Activity,channel: MethodChannel): Metho
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     }else if (call.method == "startScan") {
-      startScanView()
+     // val toolbar_color = call.argument("toolbar_color") as String
+     // val toolbar_text = call.argument("toolbar_text") as String
+
+      val toolbarMap = java.util.HashMap<String,String>()
+      toolbarMap.put("toolbar_color","#00bcd4")
+      toolbarMap.put("toolbar_text","Hi")
+      startScanView(toolbarMap)
     } else {
       result.notImplemented()
     }
   }
 
-  private fun startScanView() {
-    //val intent = Intent(activity, BarcodeScannerActivity::class.java)
-    //activity.startActivityForResult(intent, 100)
-    activity.startActivity(Intent(activity,ContinuousCaptureActivity::class.java))
+  private fun startScanView(toolbar:Map<String,String>) {
+    val toolbar_color = toolbar.get("toolbar_color")
+    val toolbar_title = toolbar.get("toolbar_title")
+    val intent = Intent(activity,ContinuousCaptureActivity::class.java)
+    intent.putExtra("toolbar_color",toolbar_color)
+    intent.putExtra("toolbar_title",toolbar_title)
+    activity.startActivity(intent)
    // Toast.makeText(context,"hi it's working!",Toast.LENGTH_SHORT).show()
   }
 }
