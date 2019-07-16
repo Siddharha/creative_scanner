@@ -26,24 +26,37 @@ class CreativeScannerPlugin(val activity:Activity,channel: MethodChannel): Metho
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     }else if (call.method == "startScan") {
-     // val toolbar_color = call.argument("toolbar_color") as String
-     // val toolbar_text = call.argument("toolbar_text") as String
+      val hasToolbar = call.argument<Boolean>("has_toolbar")
 
-      val toolbarMap = java.util.HashMap<String,String>()
-      toolbarMap.put("toolbar_color","#00bcd4")
-      toolbarMap.put("toolbar_text","Hi")
-      startScanView(toolbarMap)
+      if(hasToolbar!!){
+        val colorToolbar = call.argument<String>("toolbar_color")
+        val titleToolbar  = call.argument<String>("toolbar_title")
+        val toolbarMap = HashMap<String,Any>()
+        toolbarMap.put("toolbar_color",colorToolbar!!)
+        toolbarMap.put("toolbar_title",titleToolbar!!)
+        toolbarMap.put("is_toolbar",true)
+        startScanView(toolbarMap)
+      }else{
+        val toolbarMap = HashMap<String,Any>()
+        toolbarMap.put("toolbar_color","#000")
+        toolbarMap.put("toolbar_title","")
+        toolbarMap.put("is_toolbar",false)
+        startScanView(toolbarMap)
+      }
+
     } else {
       result.notImplemented()
     }
   }
 
-  private fun startScanView(toolbar:Map<String,String>) {
-    val toolbar_color = toolbar.get("toolbar_color")
-    val toolbar_title = toolbar.get("toolbar_title")
+  private fun startScanView(toolbar:Map<String,Any>) {
+    val toolbar_color = toolbar.get("toolbar_color") as String
+    val toolbarTitle = toolbar.get("toolbar_title") as String
+    val isToolbar = toolbar.get("is_toolbar") as Boolean
     val intent = Intent(activity,ContinuousCaptureActivity::class.java)
-    intent.putExtra("toolbar_color",toolbar_color)
-    intent.putExtra("toolbar_title",toolbar_title)
+    intent.putExtra("toolbar_color",/*toolbar_color*/"#00bcd4")
+    intent.putExtra("toolbar_title",toolbarTitle)
+    intent.putExtra("is_toolbar",isToolbar)
     activity.startActivity(intent)
    // Toast.makeText(context,"hi it's working!",Toast.LENGTH_SHORT).show()
   }
