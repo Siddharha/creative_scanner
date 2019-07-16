@@ -12,9 +12,15 @@ class CreativeScanner {
     return version;
   }
 
-  static Future<bool> startScan(Map<String,String> toolbarMap,{@required bool hasToolbar}) async {
+  static Future<bool> startScan({Map<String,String> toolbarMap,@required bool hasToolbar}) async {
+    if(hasToolbar){
       await _channel.invokeMethod('startScan',{"toolbar_color":toolbarMap['toolbar_color'],
         "toolbar_title":toolbarMap['toolbar_title'],"has_toolbar":hasToolbar});
+    }else{
+      await _channel.invokeMethod('startScan',{"toolbar_color":"#000",
+        "toolbar_title":"","has_toolbar":hasToolbar});
+    }
+
 
     return true;
   }
