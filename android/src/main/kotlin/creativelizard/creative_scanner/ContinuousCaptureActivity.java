@@ -20,10 +20,12 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
+import com.journeyapps.barcodescanner.ViewfinderView;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 public class ContinuousCaptureActivity extends AppCompatActivity {
     private static final String TAG = ContinuousCaptureActivity.class.getSimpleName();
@@ -76,6 +78,15 @@ public class ContinuousCaptureActivity extends AppCompatActivity {
         }
 
         barcodeView = new DecoratedBarcodeView(getBaseContext());
+
+        //CHANGING MASK BOX SCAN COLOR --//
+        /*ViewfinderView viewfinderView = barcodeView.findViewById(R.id.zxing_viewfinder_view);
+
+        Random rnd = new Random();
+        int color = Color.argb(100, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        viewfinderView.color(color);*/
+
+
         llMain.addView(barcodeView);
         setContentView(llMain);
 

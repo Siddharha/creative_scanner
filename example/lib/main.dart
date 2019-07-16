@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: RaisedButton(onPressed: (){
             var mapTitle = Map<String,String>();
-            mapTitle = {'toolbar_color':"#00bcd4","toolbar_title":"HI this is Test"};
-            CreativeScanner.startScan(hasToolbar: false);
+            mapTitle = {'toolbar_color':"#00bcd4","toolbar_title":"yyyy"};
+            CreativeScanner.startScan(hasToolbar: true,toolbarMap: mapTitle);
           },child: Text("Press Me"),),
         ),
       ),
